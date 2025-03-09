@@ -1,9 +1,8 @@
 #![allow(
     clippy::must_use_candidate,
     clippy::uninlined_format_args,
-    clippy::missing_errors_doc,
     clippy::doc_markdown,
-    clippy::return_self_not_must_use,
+    clippy::return_self_not_must_use
 )]
 
 use std::{fmt::Display, future::Future, path::PathBuf, sync::Arc, time::Duration};
@@ -181,6 +180,7 @@ impl ClientBuilder {
     }
 
     /// Constructs a `Client`, returning an error if the configuration is invalid.
+    #[allow(clippy::missing_errors_doc)]
     pub async fn build(self) -> Result<Client, ClientBuilderError> {
         match &self.mode {
             ClientBuilderMode::HTTPGateway { .. } => self.build_http(),
@@ -237,8 +237,10 @@ impl ClientBuilder {
         }
     }
 
-    /// Builds a `Client` in HTTPGateway mode, erroring if the mode is not HTTPGateway
+    /// Builds a `Client` in `HTTPGateway` mode
     /// This allows avoiding calling the async `build` method
+    /// # Errors
+    /// - if the `Client` is not in `HTTPGateway` mode
     pub fn build_http(self) -> Result<Client, ClientBuilderError> {
         let ClientBuilderMode::HTTPGateway { url } = self.mode else {
             return Err(ClientBuilderError::NotHTTPGateway);
@@ -263,6 +265,7 @@ pub struct Client {
 impl Client {
     /// Queries the health of the ClickHouse database
     /// This does nothing in `ClientMode::HTTPGateway`
+    #[allow(clippy::missing_errors_doc)]
     pub async fn clickhouse_health(&self) -> Result<(), TensorZeroError> {
         match &self.mode {
             ClientMode::HTTPGateway(_) => Ok(()),
@@ -280,6 +283,7 @@ impl Client {
 
     /// Assigns feedback for a TensorZero inference.
     /// See https://www.tensorzero.com/docs/gateway/api-reference#post-feedback
+    #[allow(clippy::missing_errors_doc)]
     pub async fn feedback(
         &self,
         params: FeedbackParams,
@@ -320,6 +324,7 @@ impl Client {
 
     // Runs a TensorZero inference.
     // See https://www.tensorzero.com/docs/gateway/api-reference#post-inference
+    #[allow(clippy::missing_errors_doc)]
     pub async fn inference(
         &self,
         params: ClientInferenceParams,

@@ -1,4 +1,4 @@
-#![allow(clippy::missing_errors_doc, clippy::uninlined_format_args, clippy::needless_pass_by_value)]
+#![allow(clippy::uninlined_format_args, clippy::needless_pass_by_value)]
 
 use minijinja::{Environment, UndefinedBehavior};
 
@@ -28,6 +28,7 @@ fn annotate_error(err: minijinja::Error) -> JsError {
 
 #[wasm_bindgen]
 impl JsExposedEnv {
+    #[allow(clippy::missing_errors_doc)]
     pub fn render(&self, template: &str, context: JsValue) -> Result<String, JsError> {
         let tmpl = self.env.get_template(template).map_err(annotate_error)?;
         let context: serde_json::Value = serde_wasm_bindgen::from_value(context)?;
@@ -39,6 +40,7 @@ impl JsExposedEnv {
     }
 }
 
+#[allow(clippy::missing_errors_doc)]
 #[wasm_bindgen]
 pub fn create_env(templates: JsValue) -> Result<JsExposedEnv, JsError> {
     let templates: HashMap<String, String> = serde_wasm_bindgen::from_value(templates)?;
