@@ -1,4 +1,5 @@
-#![allow(clippy::unused_async,
+#![allow(
+    clippy::unused_async,
     clippy::needless_raw_string_hashes,
     clippy::similar_names,
     clippy::inconsistent_struct_constructor,
@@ -30,6 +31,9 @@
     clippy::cast_precision_loss,
     clippy::cast_possible_wrap,
     clippy::redundant_else,
+    clippy::cloned_instead_of_copied,
+    clippy::match_wildcard_for_single_variants,
+    clippy::float_cmp
 )]
 
 pub mod cache;

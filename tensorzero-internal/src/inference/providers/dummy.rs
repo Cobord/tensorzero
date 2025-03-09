@@ -272,7 +272,7 @@ impl InferenceProvider for DummyProvider {
                     .messages
                     .iter()
                     .flat_map(|m| {
-                        m.content.iter().flat_map(|block| {
+                        m.content.iter().filter_map(|block| {
                             if let ContentBlock::Image(image) = block {
                                 Some(image.clone())
                             } else {
@@ -326,9 +326,10 @@ impl InferenceProvider for DummyProvider {
         };
         let system = request.system.clone();
         let input_messages = request.messages.clone();
-        let finish_reason = match self.model_name.contains("tool") {
-            true => Some(FinishReason::ToolCall),
-            false => Some(FinishReason::Stop),
+        let finish_reason = if self.model_name.contains("tool") {
+            Some(FinishReason::ToolCall)
+        } else {
+            Some(FinishReason::Stop)
         };
         Ok(ProviderInferenceResponse {
             id,
@@ -416,9 +417,10 @@ impl InferenceProvider for DummyProvider {
 
         let total_tokens = content_chunks.len() as u32;
         let content_chunk_len = content_chunks.len();
-        let finish_reason = match is_tool_call {
-            true => Some(FinishReason::ToolCall),
-            false => Some(FinishReason::Stop),
+        let finish_reason = if is_tool_call {
+            Some(FinishReason::ToolCall)
+        } else {
+            Some(FinishReason::Stop)
         };
         let stream: ProviderInferenceResponseStreamInner = Box::pin(
             tokio_stream::iter(content_chunks.into_iter().enumerate())

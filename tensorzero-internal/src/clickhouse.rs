@@ -110,6 +110,7 @@ impl ClickHouseConnectionInfo {
 
     /// Test helper: reads from the table `table` in our mock DB and returns an element that has (serialized) `column` equal to `value`.
     /// Returns None if no such element is found.
+    #[allow(clippy::missing_panics_doc)]
     #[cfg(test)]
     pub async fn read(&self, table: &str, column: &str, value: &str) -> Option<serde_json::Value> {
         match self {

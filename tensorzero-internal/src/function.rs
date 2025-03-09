@@ -372,7 +372,7 @@ fn validate_all_text_input(
                         assistant_schema,
                         Some((index, &message.role)),
                     )?;
-                },
+                }
                 Role::User => {
                     validate_single_message(&content, user_schema, Some((index, &message.role)))?;
                 }

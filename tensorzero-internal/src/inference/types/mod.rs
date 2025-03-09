@@ -2796,7 +2796,7 @@ mod tests {
         assert_eq!(message.content.len(), 1);
         match &message.content[0] {
             InputMessageContent::Text(TextKind::Text { text }) => {
-                assert_eq!(text, "Hello, world!")
+                assert_eq!(text, "Hello, world!");
             }
             _ => panic!("Expected Text content: {message:?}"),
         }
@@ -2811,7 +2811,7 @@ mod tests {
         assert_eq!(message.content.len(), 1);
         match &message.content[0] {
             InputMessageContent::Text(TextKind::Arguments { arguments }) => {
-                assert_eq!(arguments, json!({"key": "value"}).as_object().unwrap())
+                assert_eq!(arguments, json!({"key": "value"}).as_object().unwrap());
             }
             _ => panic!("Expected Text content"),
         }
@@ -2829,7 +2829,7 @@ mod tests {
         assert_eq!(message.content.len(), 2);
         match &message.content[0] {
             InputMessageContent::Text(TextKind::LegacyValue { value }) => {
-                assert_eq!(value, "Hello")
+                assert_eq!(value, "Hello");
             }
             _ => panic!("Expected Text content"),
         }
@@ -2857,7 +2857,7 @@ mod tests {
                 assert_eq!(
                     value,
                     &json!({"complex": "json", "with": ["nested", "array"]})
-                )
+                );
             }
             _ => panic!("Expected Text content with JSON object"),
         }
@@ -2917,7 +2917,7 @@ mod tests {
                 raw_arguments: "{\"key\": \"value\"}".to_string(),
                 raw_name: "test_tool".to_string(),
             })],
-            created: 1234567890,
+            created: 1_234_567_890,
             usage: Some(Usage {
                 input_tokens: 10,
                 output_tokens: 20,
@@ -2930,7 +2930,7 @@ mod tests {
         let result = JsonInferenceResultChunk::from(tool_chunk);
         assert_eq!(result.raw, Some("{\"key\": \"value\"}".to_string()));
         assert_eq!(result.thought, None);
-        assert_eq!(result.created, 1234567890);
+        assert_eq!(result.created, 1_234_567_890);
         assert_eq!(result.raw_response, "raw response");
         assert_eq!(result.latency, Duration::from_secs(1));
         assert_eq!(
@@ -2947,7 +2947,7 @@ mod tests {
                 id: "123".to_string(),
                 text: "some text".to_string(),
             })],
-            created: 1234567890,
+            created: 1_234_567_890,
             usage: None,
             raw_response: "raw response".to_string(),
             latency: Duration::from_secs(1),
@@ -2964,7 +2964,7 @@ mod tests {
                 id: "123".to_string(),
                 text: "thinking...".to_string(),
             })],
-            created: 1234567890,
+            created: 1_234_567_890,
             usage: None,
             raw_response: "raw response".to_string(),
             latency: Duration::from_secs(1),
@@ -2992,7 +2992,7 @@ mod tests {
                     text: "final thought".to_string(),
                 }),
             ],
-            created: 1234567890,
+            created: 1_234_567_890,
             usage: None,
             raw_response: "raw response".to_string(),
             latency: Duration::from_secs(1),
@@ -3006,7 +3006,7 @@ mod tests {
         // Test case for empty content
         let empty_chunk = ProviderInferenceResponseChunk {
             content: vec![],
-            created: 1234567890,
+            created: 1_234_567_890,
             usage: None,
             raw_response: "raw response".to_string(),
             latency: Duration::from_secs(1),

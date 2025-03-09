@@ -92,7 +92,7 @@ fn create_stream(
             include_str!("../fixtures/openai/chat_completions_streaming_example.jsonl")
         };
 
-        for line in lines.trim().split('\n') {
+        for line in lines.lines() {
             let event = Event::default().data(line);
             yield event;
         }
