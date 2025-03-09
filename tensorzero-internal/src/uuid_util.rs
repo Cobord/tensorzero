@@ -8,7 +8,7 @@ use crate::{
 
 /// Timestamp when Scaling Laws for Neural Language Models was published.
 /// No way anyone could use TensorZero prior to this.
-const EARLIEST_TIMESTAMP: u64 = 1579751960;
+const EARLIEST_TIMESTAMP: u64 = 1_579_751_960;
 
 pub fn validate_episode_id(episode_id: Uuid) -> Result<(), Error> {
     let version = episode_id.get_version_num();
@@ -58,7 +58,7 @@ pub fn uuid_elapsed(uuid: &Uuid) -> Result<Duration, Error> {
         })?
         .to_unix();
     let uuid_system_time =
-        UNIX_EPOCH + Duration::from_secs(seconds) + Duration::from_nanos(subsec_nanos as u64);
+        UNIX_EPOCH + Duration::from_secs(seconds) + Duration::from_nanos(u64::from(subsec_nanos));
     let elapsed = match SystemTime::now().duration_since(uuid_system_time) {
         Ok(duration) => duration,
         Err(e) => {

@@ -223,7 +223,7 @@ impl FunctionConfig {
                 // If the parsed output fails validation, we log the error and set `parsed_output` to None
                 let parsed_output = match parsed_output {
                     Some(parsed_output) => match output_schema.validate(&parsed_output).await {
-                        Ok(_) => Some(parsed_output),
+                        Ok(()) => Some(parsed_output),
                         Err(_) => None,
                     },
                     None => None,
@@ -293,7 +293,7 @@ impl FunctionConfig {
         }
         match self {
             FunctionConfig::Chat(params) => {
-                for tool in params.tools.iter() {
+                for tool in &params.tools {
                     static_tools.get(tool).ok_or_else(|| Error::new(ErrorDetails::Config {
                         message: format!("`functions.{function_name}.tools`: tool `{tool}` is not present in the config"),
                     }))?;
@@ -330,7 +330,7 @@ fn validate_all_text_input(
         // Only for Text blocks, not RawText blocks since we don't validate those
         let mut content: Option<Cow<'_, Value>> = None;
         let mut text_seen = false;
-        for block in message.content.iter() {
+        for block in &message.content {
             match block {
                 InputMessageContent::Text(kind) => {
                     // Throw an error if we have multiple text blocks in a message
@@ -366,13 +366,15 @@ fn validate_all_text_input(
         }
         if let Some(content) = content {
             match &message.role {
-                Role::Assistant => validate_single_message(
-                    &content,
-                    assistant_schema,
-                    Some((index, &message.role)),
-                )?,
+                Role::Assistant => {
+                    validate_single_message(
+                        &content,
+                        assistant_schema,
+                        Some((index, &message.role)),
+                    )?;
+                },
                 Role::User => {
-                    validate_single_message(&content, user_schema, Some((index, &message.role)))?
+                    validate_single_message(&content, user_schema, Some((index, &message.role)))?;
                 }
             }
         }
@@ -502,7 +504,7 @@ fn get_uniform_value(function_name: &str, episode_id: &Uuid) -> f64 {
     let hash_value = hasher.finalize();
     let truncated_hash =
         u32::from_be_bytes([hash_value[0], hash_value[1], hash_value[2], hash_value[3]]);
-    truncated_hash as f64 / u32::MAX as f64
+    f64::from(truncated_hash) / f64::from(u32::MAX)
 }
 
 #[cfg(test)]

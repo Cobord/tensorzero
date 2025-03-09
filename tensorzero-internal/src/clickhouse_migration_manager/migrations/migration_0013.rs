@@ -90,7 +90,7 @@ impl Migration for Migration0013<'_> {
         }
         let query = "SELECT 1 FROM system.functions WHERE name = 'uint_to_uuid'".to_string();
         let result = self.clickhouse.run_query(query, None).await?;
-        if !result.contains("1") {
+        if !result.contains('1') {
             return Ok(true);
         }
         Ok(false)

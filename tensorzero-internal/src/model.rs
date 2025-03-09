@@ -177,7 +177,7 @@ impl ModelConfig {
                     content: m
                         .content
                         .iter()
-                        .flat_map(|c| {
+                        .filter_map(|c| {
                             if let ContentBlock::Unknown {
                                 model_provider_name,
                                 data: _,

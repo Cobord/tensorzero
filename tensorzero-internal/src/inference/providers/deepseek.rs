@@ -343,11 +343,12 @@ impl<'a> DeepSeekRequest<'a> {
             ..
         } = *request;
 
-        let stream_options = match request.stream {
-            true => Some(StreamOptions {
+        let stream_options = if request.stream {
+            Some(StreamOptions {
                 include_usage: true,
-            }),
-            false => None,
+            })
+        } else {
+            None
         };
 
         if request.json_mode == ModelInferenceRequestJsonMode::Strict {
@@ -600,7 +601,7 @@ pub(super) fn prepare_deepseek_messages<'a>(
     model_name: &'a str,
 ) -> Result<Vec<OpenAIRequestMessage<'a>>, Error> {
     let mut messages = Vec::with_capacity(request.messages.len());
-    for message in request.messages.iter() {
+    for message in &request.messages {
         messages.extend(tensorzero_to_openai_messages(message)?);
     }
     // If this is an R1 model, prepend the system message as the first user message instead of using it as a system message

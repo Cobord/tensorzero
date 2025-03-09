@@ -97,12 +97,11 @@ fn write_json_pointer_with_parent_creation(
                         message: format!("TensorZero doesn't support pointing an index ({token}) if its container doesn't exist. We'd love to hear about your use case (& help)! Please open a GitHub Discussion: https://github.com/tensorzero/tensorzero/discussions/new"),
                         pointer: pointer.to_string(),
                         }));
-                    } else {
-                        // For non-integer keys, create a new object. This allows writing things like
-                        // `/generationConfig/temperature`, which will create a `generationConfig` object
-                        // if we don't already have `generationConfig` as a key in the object.
-                        value = vacant.insert(Value::Object(Map::new()));
                     }
+                    // For non-integer keys, create a new object. This allows writing things like
+                    // `/generationConfig/temperature`, which will create a `generationConfig` object
+                    // if we don't already have `generationConfig` as a key in the object.
+                    value = vacant.insert(Value::Object(Map::new()));
                 }
             },
             Value::Array(list) => {

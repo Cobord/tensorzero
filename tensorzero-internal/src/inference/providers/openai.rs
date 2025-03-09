@@ -433,7 +433,7 @@ impl InferenceProvider for OpenAIProvider {
             get_batch_url(self.api_base.as_ref().unwrap_or(&OPENAI_DEFAULT_BASE_URL))?;
         request_url
             .path_segments_mut()
-            .map_err(|_| {
+            .map_err(|()| {
                 Error::new(ErrorDetails::Inference {
                     message: "Failed to get mutable path segments".to_string(),
                 })
@@ -949,7 +949,7 @@ pub(super) fn prepare_openai_messages<'a>(
     request: &'a ModelInferenceRequest<'_>,
 ) -> Result<Vec<OpenAIRequestMessage<'a>>, Error> {
     let mut messages = Vec::with_capacity(request.messages.len());
-    for message in request.messages.iter() {
+    for message in &request.messages {
         messages.extend(tensorzero_to_openai_messages(message)?);
     }
     if let Some(system_msg) = tensorzero_to_openai_system_message(
@@ -1048,7 +1048,7 @@ pub(super) fn tensorzero_to_openai_messages(
 ) -> Result<Vec<OpenAIRequestMessage<'_>>, Error> {
     let mut messages = Vec::new();
 
-    for block in message.content.iter() {
+    for block in &message.content {
         match block {
             ContentBlock::Text(Text { text }) => match message.role {
                 Role::User => {
@@ -1337,11 +1337,12 @@ impl<'a> OpenAIRequest<'a> {
             request.output_schema,
             model,
         ));
-        let stream_options = match request.stream {
-            true => Some(StreamOptions {
+        let stream_options = if request.stream {
+            Some(StreamOptions {
                 include_usage: true,
-            }),
-            false => None,
+            })
+        } else {
+            None
         };
         let mut messages = prepare_openai_messages(request)?;
 

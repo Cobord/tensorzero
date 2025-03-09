@@ -239,7 +239,7 @@ impl MixtureOfNConfig {
             match result {
                 Ok(inner_result) => {
                     if let Ok(res) = inner_result {
-                        successful_results.push(res)
+                        successful_results.push(res);
                     }
                 }
                 Err(_timeout_error) => {

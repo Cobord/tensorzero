@@ -139,6 +139,7 @@ pub async fn run_migration(migration: &(impl Migration + ?Sized)) -> Result<bool
 mod tests {
     use super::*;
 
+    #[allow(clippy::struct_excessive_bools)]
     struct MockMigration {
         can_apply_result: bool,
         should_apply_result: bool,

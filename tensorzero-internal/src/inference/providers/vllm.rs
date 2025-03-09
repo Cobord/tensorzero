@@ -301,11 +301,13 @@ impl<'a> VLLMRequest<'a> {
             ) => Some(schema),
             _ => None,
         };
-        let stream_options = match request.stream {
-            true => Some(StreamOptions {
+
+        let stream_options = if request.stream {
+            Some(StreamOptions {
                 include_usage: true,
-            }),
-            false => None,
+            })
+        } else {
+            None
         };
         let messages = prepare_vllm_messages(request)?;
         // TODO (#169): Implement tool calling.
@@ -415,7 +417,7 @@ pub(super) fn prepare_vllm_messages<'a>(
     request: &'a ModelInferenceRequest<'_>,
 ) -> Result<Vec<OpenAIRequestMessage<'a>>, Error> {
     let mut messages = Vec::with_capacity(request.messages.len());
-    for message in request.messages.iter() {
+    for message in &request.messages {
         messages.extend(tensorzero_to_openai_messages(message)?);
     }
     if let Some(system_msg) = tensorzero_to_vllm_system_message(request.system.as_deref()) {

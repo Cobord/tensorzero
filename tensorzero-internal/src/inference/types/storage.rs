@@ -29,7 +29,7 @@ pub enum StorageKind {
 impl StorageKind {
     /// Get the extra prefix for the object key during e2e-tests
     #[cfg(feature = "e2e_tests")]
-    fn prefix(&self) -> &str {
+    fn prefix(&self) -> &'static str {
         match self {
             StorageKind::S3Compatible { prefix, .. } => prefix,
             _ => "",
@@ -39,7 +39,7 @@ impl StorageKind {
     /// During a normal run, we never use a prefix on the object key.
     /// See `StorageKind::S3Compatible.prefix`
     #[cfg(not(feature = "e2e_tests"))]
-    fn prefix(&self) -> &str {
+    fn prefix(&self) -> &'static str {
         ""
     }
     pub fn image_path(self, image: &Base64Image) -> Result<StoragePath, Error> {

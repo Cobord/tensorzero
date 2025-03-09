@@ -375,7 +375,7 @@ pub(super) fn prepare_together_messages<'a>(
     request: &'a ModelInferenceRequest<'_>,
 ) -> Result<Vec<OpenAIRequestMessage<'a>>, Error> {
     let mut messages = Vec::with_capacity(request.messages.len());
-    for message in request.messages.iter() {
+    for message in &request.messages {
         messages.extend(tensorzero_to_openai_messages(message)?);
     }
 
@@ -637,7 +637,7 @@ impl ThinkingState {
                     provider_type: PROVIDER_TYPE.to_string(),
                 }))
             }
-            (ThinkingState::Finished, "<think>") | (ThinkingState::Finished, "</think>") => {
+            (ThinkingState::Finished, "<think>" | "</think>") => {
                 Err(Error::new(ErrorDetails::InferenceServer {
                     message: "Found thinking tags after thinking finished".to_string(),
                     raw_request: None,

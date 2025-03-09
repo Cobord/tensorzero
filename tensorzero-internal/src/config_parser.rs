@@ -611,7 +611,7 @@ impl UninitializedFunctionConfig {
                     .into_iter()
                     .map(|(name, variant)| variant.load(&base_path).map(|v| (name, v)))
                     .collect::<Result<HashMap<_, _>, Error>>()?;
-                for (name, variant) in variants.iter() {
+                for (name, variant) in &variants {
                     if let VariantConfig::ChatCompletion(chat_config) = variant {
                         if chat_config.json_mode.is_some() {
                             return Err(ErrorDetails::Config {
@@ -658,7 +658,7 @@ impl UninitializedFunctionConfig {
                     .map(|(name, variant)| variant.load(&base_path).map(|v| (name, v)))
                     .collect::<Result<HashMap<_, _>, Error>>()?;
 
-                for (name, variant) in variants.iter() {
+                for (name, variant) in &variants {
                     let mut warn_variant = None;
                     match variant {
                         VariantConfig::ChatCompletion(chat_config) => {

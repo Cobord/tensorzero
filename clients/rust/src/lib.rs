@@ -1,3 +1,11 @@
+#![allow(
+    clippy::must_use_candidate,
+    clippy::uninlined_format_args,
+    clippy::missing_errors_doc,
+    clippy::doc_markdown,
+    clippy::return_self_not_must_use,
+)]
+
 use std::{fmt::Display, future::Future, path::PathBuf, sync::Arc, time::Duration};
 
 use reqwest_eventsource::{Event, EventSource, RequestBuilderExt};

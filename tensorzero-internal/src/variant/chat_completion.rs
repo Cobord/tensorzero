@@ -119,7 +119,7 @@ impl ChatCompletionConfig {
             Role::Assistant => self.assistant_template.as_ref(),
         };
         let mut content = Vec::new();
-        for block in message.content.iter() {
+        for block in &message.content {
             match block {
                 ResolvedInputMessageContent::Text { value: text } => {
                     let text_content= match template_path {

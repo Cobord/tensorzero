@@ -989,7 +989,7 @@ pub async fn parse_chat_output(
     }
 
     let mut output = Vec::new();
-    for content in content.into_iter() {
+    for content in content {
         match content {
             ContentBlockOutput::Text(text) => {
                 output.push(ContentBlockChatOutput::Text(text));
@@ -1071,7 +1071,9 @@ impl JsonInferenceDatabaseInsert {
     }
 }
 
-// Function to get the current timestamp in seconds
+/// Function to get the current timestamp in seconds
+/// # Panics
+/// Time went backwards to before the 1970s
 pub fn current_timestamp() -> u64 {
     #[allow(clippy::expect_used)]
     SystemTime::now()
@@ -1188,14 +1190,14 @@ impl From<ProviderInferenceResponseChunk> for JsonInferenceResultChunk {
     fn from(chunk: ProviderInferenceResponseChunk) -> Self {
         let mut raw = None;
         let mut thought = None;
-        for content in chunk.content.into_iter() {
+        for content in chunk.content {
             match content {
                 ContentBlockChunk::ToolCall(tool_call) => {
-                    raw = Some(tool_call.raw_arguments.to_owned())
+                    raw = Some(tool_call.raw_arguments.to_owned());
                 }
                 ContentBlockChunk::Text(text_chunk) => raw = Some(text_chunk.text.to_owned()),
                 ContentBlockChunk::Thought(thought_chunk) => {
-                    thought = Some(thought_chunk.text.to_owned())
+                    thought = Some(thought_chunk.text.to_owned());
                 }
             }
         }
