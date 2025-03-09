@@ -1,3 +1,5 @@
+#![allow(clippy::missing_errors_doc, clippy::uninlined_format_args, clippy::needless_pass_by_value)]
+
 use minijinja::{Environment, UndefinedBehavior};
 
 use std::collections::HashMap;
@@ -42,7 +44,7 @@ pub fn create_env(templates: JsValue) -> Result<JsExposedEnv, JsError> {
     let templates: HashMap<String, String> = serde_wasm_bindgen::from_value(templates)?;
     let mut env = Environment::new();
     env.set_undefined_behavior(UndefinedBehavior::Strict);
-    for (name, template) in templates.into_iter() {
+    for (name, template) in templates {
         env.add_template_owned(name, template)
             .map_err(annotate_error)?;
     }

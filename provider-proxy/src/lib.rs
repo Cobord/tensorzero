@@ -1,7 +1,7 @@
 //! An HTTP/HTTPS proxy that caches non-error responses to disk.
-//! Heavily based on https://github.com/hatoo/http-mitm-proxy (MIT-licensed),
+//! Heavily based on <https://github.com/hatoo/http-mitm-proxy> (MIT-licensed),
 //! with the openssl dependency and `default_client` removed.
-#![allow(clippy::panic, clippy::unwrap_used, clippy::expect_used)]
+#![allow(clippy::panic, clippy::unwrap_used, clippy::expect_used, clippy::needless_pass_by_value, clippy::redundant_closure_for_method_calls, clippy::redundant_else)]
 
 mod mitm_server;
 mod streaming_body_collector;
@@ -230,6 +230,12 @@ pub struct Args {
     pub write: bool,
 }
 
+/// # Panics
+/// - if the initialization of `tracing_subscriber` was unsuccessful,
+///     likely because a global subscriber was already installed by another call to `try_init`
+/// - if there was a failure to install rustls ring provider
+/// - if there was a failure to bind the service
+/// - if there was a failure to send server started signal
 pub async fn run_server(args: Args, server_started: oneshot::Sender<SocketAddr>) {
     use tracing_subscriber::EnvFilter;
 

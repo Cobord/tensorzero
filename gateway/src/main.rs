@@ -32,6 +32,7 @@ struct Args {
     tensorzero_toml: Option<PathBuf>,
 }
 
+#[allow(clippy::too_many_lines)]
 #[tokio::main]
 async fn main() {
     // Set up logs and metrics
@@ -179,13 +180,13 @@ pub async fn shutdown_signal() {
     };
 
     tokio::select! {
-        _ = ctrl_c => {
+        () = ctrl_c => {
             tracing::info!("Received Ctrl+C signal");
         }
-        _ = terminate => {
+        () = terminate => {
             tracing::info!("Received SIGTERM signal");
         }
-        _ = hangup => {
+        () = hangup => {
             tokio::time::sleep(Duration::from_secs(1)).await;
             tracing::info!("Received SIGHUP signal");
         }
@@ -221,12 +222,11 @@ impl<T, E: Display> ExpectPretty<T> for Result<T, E> {
 
 impl<T> ExpectPretty<T> for Option<T> {
     fn expect_pretty(self, msg: &str) -> T {
-        match self {
-            Some(value) => value,
-            None => {
-                tracing::error!("{msg}");
-                std::process::exit(1);
-            }
+        if let Some(value) = self {
+            value
+        } else {
+            tracing::error!("{msg}");
+            std::process::exit(1);
         }
     }
 }
