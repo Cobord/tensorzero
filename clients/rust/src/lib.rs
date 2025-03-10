@@ -1,7 +1,6 @@
 #![allow(
     clippy::must_use_candidate,
     clippy::uninlined_format_args,
-    clippy::doc_markdown,
     clippy::return_self_not_must_use
 )]
 
@@ -74,7 +73,7 @@ pub struct ClientBuilder {
     verbose_errors: bool,
 }
 
-/// An error type representing an error from within the TensorZero gateway
+/// An error type representing an error from within the `TensorZero` gateway
 #[derive(Error, Debug)]
 #[non_exhaustive]
 pub enum TensorZeroError {
@@ -137,14 +136,14 @@ impl<T: Debug + Display> Display for DisplayOrDebug<T> {
 
 /// Controls how a `Client` is run
 pub enum ClientBuilderMode {
-    /// In HTTPGateway mode, we make HTTP requests to a TensorZero gateway server.
+    /// In `HTTPGateway` mode, we make HTTP requests to a `TensorZero` gateway server.
     HTTPGateway { url: Url },
-    /// In EmbeddedGateway mode, we run an embedded gateway using a config file.
-    /// We do not launch an HTTP server - we only make outgoing HTTP requests to model providers and to ClickHouse.
+    /// In `EmbeddedGateway` mode, we run an embedded gateway using a config file.
+    /// We do not launch an HTTP server - we only make outgoing HTTP requests to model providers and to `ClickHouse`.
     EmbeddedGateway {
         config_file: Option<PathBuf>,
         clickhouse_url: Option<String>,
-        /// A timeout for all TensorZero gateway processing.
+        /// A timeout for all `TensorZero` gateway processing.
         /// If this timeout is hit, any in-progress LLM requests may be aborted.
         timeout: Option<std::time::Duration>,
     },
@@ -162,7 +161,7 @@ impl ClientBuilder {
 
     /// Sets the `reqwest::Client` to be used when making any HTTP requests.
     /// In `EmbeddedGateway` mode, this is used for making requests to model endpoints,
-    /// as well as ClickHouse.
+    /// as well as `ClickHouse`.
     /// In `HTTPGateway` mode, this is used for making requests to the gateway.
     pub fn with_http_client(mut self, client: reqwest::Client) -> Self {
         self.http_client = Some(client);
@@ -255,7 +254,7 @@ impl ClientBuilder {
     }
 }
 
-/// A TensorZero client. This is constructed using `ClientBuilder`
+/// A `TensorZero` client. This is constructed using `ClientBuilder`
 #[derive(Debug)]
 pub struct Client {
     mode: ClientMode,
@@ -263,7 +262,7 @@ pub struct Client {
 }
 
 impl Client {
-    /// Queries the health of the ClickHouse database
+    /// Queries the health of the `ClickHouse` database
     /// This does nothing in `ClientMode::HTTPGateway`
     #[allow(clippy::missing_errors_doc)]
     pub async fn clickhouse_health(&self) -> Result<(), TensorZeroError> {
@@ -281,8 +280,8 @@ impl Client {
         }
     }
 
-    /// Assigns feedback for a TensorZero inference.
-    /// See https://www.tensorzero.com/docs/gateway/api-reference#post-feedback
+    /// Assigns feedback for a `TensorZero` inference.
+    /// See <https://www.tensorzero.com/docs/gateway/api-reference#post-feedback>
     #[allow(clippy::missing_errors_doc)]
     pub async fn feedback(
         &self,

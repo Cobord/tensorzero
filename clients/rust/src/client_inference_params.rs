@@ -148,6 +148,7 @@ impl Serialize for ClientSecretString {
 // The orphan rule requires us to write some impls in this crate, instead of in the `python-pyo3` wrapper crate.
 #[cfg(feature = "pyo3")]
 mod pyo3_impls {
+    #[allow(clippy::wildcard_imports)]
     use super::*;
     use pyo3::prelude::*;
 

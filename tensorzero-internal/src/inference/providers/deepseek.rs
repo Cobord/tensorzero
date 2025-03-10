@@ -448,7 +448,7 @@ struct DeepSeekToolCallChunk {
     function: DeepSeekFunctionCallChunk,
 }
 
-// This doesn't include role
+// This doesn't include `role`
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 struct DeepSeekDelta {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -459,7 +459,7 @@ struct DeepSeekDelta {
     tool_calls: Option<Vec<DeepSeekToolCallChunk>>,
 }
 
-// This doesn't include logprobs, finish_reason, and index
+// This doesn't include `logprobs`, `finish_reason`, and `index`
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 struct DeepSeekChatChunkChoice {
     delta: DeepSeekDelta,

@@ -1880,7 +1880,7 @@ mod tests {
         assert!(result.unwrap_err().to_string().contains("`models.gpt-3.5-turbo.routing`: Provider name cannot start with 'tensorzero::': tensorzero::openai"));
     }
 
-    /// Ensure that get_templates returns the correct templates
+    /// Ensure that `get_templates` returns the correct templates
     #[test]
     fn test_get_all_templates() {
         let config_table = get_sample_valid_config();
