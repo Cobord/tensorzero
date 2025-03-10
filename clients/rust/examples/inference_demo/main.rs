@@ -15,11 +15,11 @@ use url::Url;
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// Path to tensorzero.toml. This runs the client in embedded gateway mode.
+    /// Path to `tensorzero.toml`. This runs the client in embedded gateway mode.
     #[arg(short, long)]
     config_file: Option<PathBuf>,
 
-    /// URL of a running TensorZero HTTP gateway server to use for requests. This runs the client in HTTP gateway mode.
+    /// URL of a running `TensorZero` HTTP gateway server to use for requests. This runs the client in HTTP gateway mode.
     #[arg(short, long)]
     gateway_url: Option<Url>,
 
