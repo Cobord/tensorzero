@@ -1760,9 +1760,8 @@ mod tests {
             )
             .await
             .unwrap();
-        let first_chunk = match stream.next().await.unwrap().unwrap() {
-            InferenceResultChunk::Chat(chunk) => chunk,
-            _ => panic!("Expected Chat inference response"),
+        let InferenceResultChunk::Chat(first_chunk) = stream.next().await.unwrap().unwrap() else {
+            panic!("Expected Chat inference response")
         };
         assert_eq!(
             first_chunk.content,
@@ -1790,9 +1789,8 @@ mod tests {
                 );
                 break;
             }
-            let chunk = match chunk {
-                InferenceResultChunk::Chat(chunk) => chunk,
-                _ => panic!("Expected Chat inference response"),
+            let InferenceResultChunk::Chat(chunk) = chunk else {
+                panic!("Expected Chat inference response")
             };
             assert_eq!(
                 chunk.content,

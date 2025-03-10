@@ -1376,6 +1376,7 @@ mod tests {
         full_response.push_str(&received_text);
 
         // Verify the full response
+        #[allow(clippy::cloned_instead_of_copied)]
         let expected_response: String = DUMMY_STREAMING_RESPONSE.iter().cloned().collect();
         assert_eq!(full_response, expected_response);
     }
@@ -1529,6 +1530,7 @@ mod tests {
         full_response.push_str(&received_text);
 
         // Verify the full response
+        #[allow(clippy::cloned_instead_of_copied)]
         let expected_response: String = DUMMY_STREAMING_RESPONSE.iter().cloned().collect();
         assert_eq!(full_response, expected_response);
 

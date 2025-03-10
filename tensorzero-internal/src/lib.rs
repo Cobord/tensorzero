@@ -29,7 +29,6 @@
     clippy::cast_precision_loss,
     clippy::cast_possible_wrap,
     clippy::redundant_else,
-    clippy::cloned_instead_of_copied,
     clippy::match_wildcard_for_single_variants,
     clippy::float_cmp
 )]

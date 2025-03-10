@@ -587,9 +587,10 @@ mod tests {
             assert_eq!(metric_config.level, MetricConfigLevel::Inference);
 
             // Verify the type conversion from LLMJudgeOutputType to MetricConfigType
-            let llm_judge_eval = match config.evaluators.get("llm_judge_eval").unwrap() {
-                EvaluatorConfig::LLMJudge(config) => config,
-                _ => panic!("Expected LLMJudge evaluator"),
+            let EvaluatorConfig::LLMJudge(llm_judge_eval) =
+                config.evaluators.get("llm_judge_eval").unwrap()
+            else {
+                panic!("Expected LLMJudge evaluator")
             };
             assert_eq!(
                 MetricConfigType::from(llm_judge_eval.output_type),
@@ -691,9 +692,10 @@ mod tests {
             assert_eq!(metric_config.level, MetricConfigLevel::Inference);
 
             // Verify the type conversion from LLMJudgeOutputType to MetricConfigType
-            let llm_judge_eval = match config.evaluators.get("llm_judge_float").unwrap() {
-                EvaluatorConfig::LLMJudge(config) => config,
-                _ => panic!("Expected LLMJudge evaluator"),
+            let EvaluatorConfig::LLMJudge(llm_judge_eval) =
+                config.evaluators.get("llm_judge_float").unwrap()
+            else {
+                panic!("Expected LLMJudge evaluator")
             };
             assert_eq!(
                 MetricConfigType::from(llm_judge_eval.output_type),

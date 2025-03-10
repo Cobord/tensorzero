@@ -1746,6 +1746,7 @@ mod tests {
             )
             .await;
         assert!(response.is_err());
+        #[allow(clippy::manual_let_else)]
         let error = match response {
             Err(error) => error,
             Ok(_) => panic!("Expected error, got Ok(_)"),

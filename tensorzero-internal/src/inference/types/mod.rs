@@ -2298,9 +2298,8 @@ mod tests {
             cached: false,
         };
         let result = collect_chunks(collect_chunks_args).await.unwrap();
-        let chat_result = match result {
-            InferenceResult::Chat(chat_result) => chat_result,
-            _ => panic!("Expected Chat inference response"),
+        let InferenceResult::Chat(chat_result) = result else {
+            panic!("Expected Chat inference response")
         };
         assert_eq!(chat_result.inference_id, inference_id);
         assert_eq!(chat_result.created, created);
