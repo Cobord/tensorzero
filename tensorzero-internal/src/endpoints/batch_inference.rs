@@ -821,7 +821,8 @@ pub async fn write_completed_batch_inference<'a>(
             raw_response,
             usage,
             finish_reason,
-        }) = response.elements.remove(&inference_id) else {
+        }) = response.elements.remove(&inference_id)
+        else {
             // this error is discarded?
             let _ = Error::new(ErrorDetails::MissingBatchInferenceResponse {
                 inference_id: Some(inference_id),
@@ -846,7 +847,10 @@ pub async fn write_completed_batch_inference<'a>(
         let tool_config: Option<ToolCallConfig> = tool_params.map(|t| t.into());
         let Ok(output_schema) = output_schema
             .map(|s| DynamicJSONSchema::parse_from_str(&s))
-            .transpose() else { continue };
+            .transpose()
+        else {
+            continue;
+        };
         let inference_config = InferenceConfig {
             tool_config: tool_config.as_ref(),
             dynamic_output_schema: output_schema.as_ref(),

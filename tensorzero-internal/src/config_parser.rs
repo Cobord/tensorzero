@@ -228,9 +228,9 @@ impl<'c> Config<'c> {
             return Err(ErrorDetails::Config {
                 message: format!("Config file not found: {config_path:?}"),
             }
-            .into())
+            .into());
         };
-        
+
         let base_path = match PathBuf::from(&config_path).parent() {
             Some(base_path) => base_path.to_path_buf(),
             None => {
