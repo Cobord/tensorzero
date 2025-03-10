@@ -404,7 +404,7 @@ pub async fn inference(
                 // Always spawn a tokio task here. This ensures that 'write_inference' will
                 // not be cancelled partway through execution if the outer '/inference' request
                 // is cancelled. This reduces the chances that we only write to some tables and not others
-                // (but this is inherently best-effort due to ClickHouse's lack of transactions).
+                // (but this is inherently best-effort due to `ClickHouse`'s lack of transactions).
                 let write_future = tokio::spawn(async move {
                     write_inference(
                         &clickhouse_connection_info,
@@ -762,7 +762,7 @@ async fn write_inference(
     futures::future::join_all(futures).await;
 }
 
-/// InferenceResponse and InferenceResultChunk determine what gets serialized and sent to the client
+/// `InferenceResponse` and `InferenceResultChunk` determine what gets serialized and sent to the client
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged, rename_all = "snake_case")]
@@ -925,7 +925,7 @@ pub struct InferenceModels<'a> {
     pub embedding_models: &'a EmbeddingModelTable,
 }
 
-/// InferenceParams is the top-level struct for inference parameters.
+/// `InferenceParams` is the top-level struct for inference parameters.
 /// We backfill these from the configs given in the variants used and ultimately write them to the database.
 #[derive(Clone, Debug, Default, Deserialize, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]

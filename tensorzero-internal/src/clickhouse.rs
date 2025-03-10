@@ -24,15 +24,15 @@ pub enum ClickHouseConnectionInfo {
 }
 
 impl ClickHouseConnectionInfo {
-    /// Create a new ClickHouse connection info from a database URL.
+    /// Create a new `ClickHouse` connection info from a database URL.
     /// You should always use this function in production code or generic integration tests that
-    /// don't test specific ClickHouse behavior.
+    /// don't test specific `ClickHouse` behavior.
     /// For e2e tests, you should use the `get_clickhouse` function.
     ///
     /// This function returns an error if anything is malformed but if the connection is unhealthy it logs that and
-    /// returns Ok(Production{ ... })
+    /// returns `Ok(Production{ ... })`
     ///
-    /// However, for tests that directly test ClickHouse behavior, you can directly create the struct.
+    /// However, for tests that directly test `ClickHouse` behavior, you can directly create the struct.
     pub async fn new(database_url: &str) -> Result<Self, Error> {
         // Add a query string for the database using the URL crate
         let mut database_url = Url::parse(database_url).map_err(|_| {
@@ -109,7 +109,7 @@ impl ClickHouseConnectionInfo {
     }
 
     /// Test helper: reads from the table `table` in our mock DB and returns an element that has (serialized) `column` equal to `value`.
-    /// Returns None if no such element is found.
+    /// Returns `None` if no such element is found.
     #[allow(clippy::missing_panics_doc)]
     #[cfg(test)]
     pub async fn read(&self, table: &str, column: &str, value: &str) -> Option<serde_json::Value> {
@@ -151,7 +151,7 @@ impl ClickHouseConnectionInfo {
                 client,
                 ..
             } => {
-                // We need to ping the /ping endpoint to check if ClickHouse is healthy
+                // We need to ping the /ping endpoint to check if `ClickHouse` is healthy
                 let mut ping_url = Url::parse(database_url.expose_secret()).map_err(|_| {
                     Error::new(ErrorDetails::Config {
                         message: "Invalid ClickHouse database URL".to_string(),
@@ -162,7 +162,7 @@ impl ClickHouseConnectionInfo {
 
                 match client
                     .get(ping_url)
-                    // If ClickHouse is healthy, it should respond within 1000ms
+                    // If `ClickHouse` is healthy, it should respond within 1000ms
                     .timeout(std::time::Duration::from_millis(1000))
                     .send()
                     .await

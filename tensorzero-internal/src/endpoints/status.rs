@@ -13,7 +13,7 @@ pub async fn status_handler() -> Json<Value> {
     Json(json!({ "status": "ok", "version": TENSORZERO_VERSION }))
 }
 
-/// A handler for a health check that includes availability of related services (for now, ClickHouse)
+/// A handler for a health check that includes availability of related services (for now, `ClickHouse`)
 pub async fn health_handler(
     State(AppStateData {
         clickhouse_connection_info,

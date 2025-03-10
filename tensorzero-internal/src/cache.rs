@@ -138,7 +138,7 @@ struct FullCacheRow<T: CacheOutput> {
 }
 
 /// The underlying cached input/output data. These are the fields that we actually retrieve from
-/// ClickHouse when going a cache fetch
+/// `ClickHouse` when going a cache fetch
 #[derive(Debug, Deserialize, Serialize)]
 pub struct CacheData<T: CacheOutput> {
     pub output: T,
@@ -151,7 +151,7 @@ pub struct CacheData<T: CacheOutput> {
 
 /// A marker trait for types that can be used in the 'output' field of `CacheData`
 /// This ensures that we don't accidentally try to serialize/deserialize the wrong type
-/// to/from ClickHouse
+/// to/from `ClickHouse`
 /// We use a marker trait rather than an enum so that the expected type can be enforced by the caller
 /// (e.g. `infer_stream` will never try to deserialize a `NonStreamingCacheData`)
 pub trait CacheOutput {}

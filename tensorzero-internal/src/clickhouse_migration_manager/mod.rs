@@ -1,3 +1,5 @@
+#![allow(clippy::doc_markdown)]
+
 pub mod migration_trait;
 pub mod migrations;
 
