@@ -264,7 +264,7 @@ impl InferenceProvider for OpenAIProvider {
 
     // Get a single chunk from the stream and make sure it is OK then send to client.
     // We want to do this here so that we can tell that the request is working.
-    /// 1. Upload the requests to OpenAI as a File
+    /// 1. Upload the requests to `OpenAI` as a File
     /// 2. Start the batch inference
     ///    We do them in sequence here.
     async fn start_batch_inference<'a>(
@@ -962,8 +962,8 @@ pub(super) fn prepare_openai_messages<'a>(
     Ok(messages)
 }
 
-/// If there are no tools passed or the tools are empty, return None for both tools and tool_choice
-/// Otherwise convert the tool choice and tools to OpenAI format
+/// If there are no tools passed or the tools are empty, return `None` for both `tools` and `tool_choice`
+/// Otherwise convert the tool choice and tools to `OpenAI` format
 pub(super) fn prepare_openai_tools<'a>(
     request: &'a ModelInferenceRequest,
 ) -> (
@@ -991,10 +991,10 @@ pub(super) fn prepare_openai_tools<'a>(
     }
 }
 
-/// This function is complicated only by the fact that OpenAI and Azure require
+/// This function is complicated only by the fact that `OpenAI` and `Azure` require
 /// different instructions depending on the json mode and the content of the messages.
 ///
-/// If ModelInferenceRequestJsonMode::On and the system message or instructions does not contain "JSON"
+/// If `ModelInferenceRequestJsonMode::On` and the system message or instructions does not contain "JSON"
 /// the request will return an error.
 /// So, we need to format the instructions to include "Respond using JSON." if it doesn't already.
 pub(super) fn tensorzero_to_openai_system_message<'a>(
@@ -1292,12 +1292,12 @@ pub(super) struct StreamOptions {
     pub(super) include_usage: bool,
 }
 
-/// This struct defines the supported parameters for the OpenAI API
+/// This struct defines the supported parameters for the `OpenAI` API
 /// See the [OpenAI API documentation](https://platform.openai.com/docs/api-reference/chat/create)
 /// for more details.
-/// We are not handling logprobs, top_logprobs, n,
-/// presence_penalty, seed, service_tier, stop, user,
-/// or the deprecated function_call and functions arguments.
+/// We are not handling `logprobs`, `top_logprobs`, `n`,
+/// `presence_penalty`, `seed`, `service_tier`, `stop`, `user`,
+/// or the deprecated `function_call` and `functions` arguments.
 #[derive(Debug, Serialize)]
 struct OpenAIRequest<'a> {
     messages: Vec<OpenAIRequestMessage<'a>>,
@@ -1655,7 +1655,7 @@ struct OpenAIChatChunk {
     usage: Option<OpenAIUsage>,
 }
 
-/// Maps an OpenAI chunk to a TensorZero chunk for streaming inferences
+/// Maps an `OpenAI` chunk to a `TensorZero` chunk for streaming inferences
 fn openai_to_tensorzero_chunk(
     mut chunk: OpenAIChatChunk,
     latency: Duration,

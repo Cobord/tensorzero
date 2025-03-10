@@ -1,4 +1,4 @@
-/// TGI integration for TensorZero
+/// `TGI` integration for `TensorZero`
 ///
 /// Here, we list known limitations of TGI in our experience
 ///
@@ -336,9 +336,9 @@ fn stream_tgi(
 /// This struct defines the supported parameters for the TGI API
 /// See the [TGI documentation](https://huggingface.co/docs/text-generation-inference/en/reference/api_reference#openai-messages-api)
 /// for more details.
-/// We are not handling logprobs, top_logprobs, n,
-/// presence_penalty, seed, service_tier, stop, user,
-/// or the deprecated function_call and functions arguments.
+/// We are not handling `logprobs`, `top_logprobs`, `n`,
+/// `presence_penalty`, `seed`, `service_tier`, `stop`, `user`,
+/// or the deprecated `function_call` and `functions` arguments.
 #[derive(Debug, Serialize)]
 struct TGIRequest<'a> {
     messages: Vec<OpenAIRequestMessage<'a>>,
@@ -649,7 +649,7 @@ struct TGIChatChunk {
     usage: Option<TGIUsage>,
 }
 
-/// Maps an TGI chunk to a TensorZero chunk for streaming inferences
+/// Maps an `TGI` chunk to a `TensorZero` chunk for streaming inferences
 fn tgi_to_tensorzero_chunk(
     mut chunk: TGIChatChunk,
     latency: Duration,

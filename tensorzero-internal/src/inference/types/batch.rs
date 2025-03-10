@@ -25,8 +25,8 @@ pub enum BatchStatus {
     Failed,
 }
 
-/// Returned from start_batch_inference from an InferenceProvider
-/// This is the original response type for start_batch_inference.
+/// Returned from `start_batch_inference` from an `InferenceProvider`
+/// This is the original response type for `start_batch_inference`.
 /// The types below add additional context to the response as it is returned
 /// through the call stack.
 pub struct StartBatchProviderInferenceResponse {
@@ -39,7 +39,7 @@ pub struct StartBatchProviderInferenceResponse {
     pub errors: Vec<Value>,
 }
 
-/// Returned from start_batch_inference from a model
+/// Returned from `start_batch_inference` from a model
 /// Adds the model provider name to the response
 pub struct StartBatchModelInferenceResponse {
     pub batch_id: Uuid,
@@ -70,9 +70,9 @@ impl StartBatchModelInferenceResponse {
     }
 }
 
-/// Returned from poll_batch_inference from a variant.
+/// Returned from `poll_batch_inference` from a variant.
 /// Here, we add context from the variant, such as the original inputs, templated input messages,
-/// systems, tool configs, inference params, model_name, and output schemas.
+/// systems, tool configs, inference params, model name, and output schemas.
 pub struct StartBatchModelInferenceWithMetadata<'a> {
     pub batch_id: Uuid,
     pub errors: Vec<Value>,
@@ -126,7 +126,7 @@ impl<'a> StartBatchModelInferenceWithMetadata<'a> {
     }
 }
 
-// TODO (#503): add errors even for Pending batches and Failed batches
+// TODO (#503): add errors even for `Pending` batches and `Failed` batches
 // this will require those variants to wrap structs of their own
 #[derive(Debug)]
 pub enum PollBatchInferenceResponse {
@@ -141,7 +141,7 @@ pub enum PollBatchInferenceResponse {
     },
 }
 
-/// Data retrieved from the BatchRequest table in ClickHouse
+/// Data retrieved from the `BatchRequest` table in `ClickHouse`
 #[derive(Debug, Deserialize, Serialize)]
 pub struct BatchRequestRow<'a> {
     pub batch_id: Uuid,
@@ -204,7 +204,7 @@ pub struct ProviderBatchInferenceResponse {
     // TODO (#503): add errors
 }
 
-/// Additional metadata needed to write to ClickHouse that isn't available at the variant level
+/// Additional metadata needed to write to `ClickHouse` that isn't available at the variant level
 #[derive(Debug)]
 pub struct BatchInferenceDatabaseInsertMetadata<'a> {
     pub function_name: &'a str,
@@ -213,10 +213,10 @@ pub struct BatchInferenceDatabaseInsertMetadata<'a> {
     pub tags: Option<Vec<Option<HashMap<String, String>>>>,
 }
 
-/// Data needed to write to the `BatchModelInference` table in ClickHouse
+/// Data needed to write to the `BatchModelInference` table in `ClickHouse`
 ///
 /// Design constraint: this should contain all the information needed from
-/// starting batch inference to eventually populate ChatInference, JsonInference, and ModelInference
+/// starting batch inference to eventually populate `ChatInference`, `JsonInference`, and `ModelInference`
 /// tables.
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
 pub struct BatchModelInferenceRow<'a> {
@@ -332,7 +332,7 @@ impl TryFrom<BatchEpisodeIdsWithSize> for BatchEpisodeIds {
     }
 }
 
-/// InferenceParams is the top-level struct for inference parameters.
+/// `InferenceParams` is the top-level struct for inference parameters.
 /// We backfill these from the configs given in the variants used and ultimately write them to the database.
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 pub struct BatchInferenceParams {

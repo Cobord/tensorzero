@@ -43,13 +43,13 @@ pub mod resolved_input;
 pub mod storage;
 
 /*
- * Data flow in TensorZero
+ * Data flow in `TensorZero`
  *
- * The flow of an inference request through TensorZero can be viewed as a series of transformations between types.
+ * The flow of an inference request through `TensorZero` can be viewed as a series of transformations between types.
  * Most of them are defined below.
  */
 
-/// A request is made that contains an Input
+/// A request is made that contains an `Input`
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Default)]
 #[serde(deny_unknown_fields)]
 pub struct Input {
@@ -156,7 +156,7 @@ impl InputMessageContent {
     }
 }
 
-/// InputMessage and Role are our representation of the input sent by the client
+/// `InputMessage` and `Role` are our representation of the input sent by the client
 /// prior to any processing into LLM representations below.
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 #[serde(deny_unknown_fields)]
@@ -177,10 +177,10 @@ pub enum InputMessageContent {
     },
     Image(Image),
     /// An unknown content block type, used to allow passing provider-specific
-    /// content blocks (e.g. Anthropic's "redacted_thinking") in and out
-    /// of TensorZero.
-    /// The 'data' field hold the original content block from the provider,
-    /// without any validation or transformation by TensorZero.
+    /// content blocks (e.g. Anthropic's `redacted_thinking`) in and out
+    /// of `TensorZero`.
+    /// The `data` field hold the original content block from the provider,
+    /// without any validation or transformation by `TensorZero`.
     Unknown {
         data: Value,
         model_provider_name: Option<String>,
@@ -203,13 +203,13 @@ pub enum Role {
     Assistant,
 }
 
-/// InputMessages are validated against the input schema of the Function
-/// and then templated and transformed into RequestMessages for a particular Variant.
+/// `InputMessages` are validated against the input schema of the `Function`
+/// and then templated and transformed into `RequestMessages` for a particular `Variant`.
 /// They might contain tool calls or tool results along with text.
-/// The abstraction we use to represent this is ContentBlock, which is a union of Text, ToolCall, and ToolResult.
-/// ContentBlocks are collected into RequestMessages.
-/// These RequestMessages are collected into a ModelInferenceRequest,
-/// which should contain all information needed by a ModelProvider to perform the
+/// The abstraction we use to represent this is `ContentBlock`, which is a union of `Text`, `ToolCall`, and `ToolResult`.
+/// `ContentBlocks` are collected into `RequestMessages`.
+/// These `RequestMessages` are collected into a `ModelInferenceRequest`,
+/// which should contain all information needed by a `ModelProvider` to perform the
 /// inference that is called for.
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
@@ -243,7 +243,7 @@ pub enum ContentBlock {
         ///
         /// If set to `Some`, this is compared against the output of `fully_qualified_name` before invoking
         /// a model provider, and stripped from the input if it doesn't match.
-        /// If set to `None, then this is passed to all model providers.
+        /// If set to `None`, then this is passed to all model providers.
         /// Individual model provider implementation never need to check this field themselves -
         /// they only need to produce it with the proper `fully_qualified_name` set.
         model_provider_name: Option<String>,
@@ -293,7 +293,7 @@ pub enum ContentBlockChatOutput {
     },
 }
 
-/// A RequestMessage is a message sent to a model
+/// A `RequestMessage` is a message sent to a model
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct RequestMessage {
     pub role: Role,
@@ -316,11 +316,11 @@ pub enum ModelInferenceRequestJsonMode {
     Strict,
 }
 
-/// Top-level TensorZero type for an inference request to a particular model.
+/// Top-level `TensorZero` type for an inference request to a particular model.
 /// This should contain all the information required to make a valid inference request
 /// for a provider, except for information about what model to actually request,
 /// and to convert it back to the appropriate response format.
-/// An example of the latter is that we might have prepared a request with Tools available
+/// An example of the latter is that we might have prepared a request with `Tools` available
 /// but the client actually just wants a chat response.
 #[derive(Builder, Clone, Debug, Default, PartialEq, Serialize)]
 #[builder(setter(into, strip_option), default)]
@@ -352,12 +352,12 @@ pub enum FinishReason {
     Unknown,
 }
 
-/// Each provider transforms a ModelInferenceRequest into a provider-specific (private) inference request type
+/// Each provider transforms a `ModelInferenceRequest` into a provider-specific (private) inference request type
 /// that is suitable for serialization directly into a request to the provider.
 ///
-/// In both non-streaming and streaming inference, each ModelProvider receives data from the provider in a
-/// a (private) provider-specific format that is then transformed into a ProviderInferenceResponse (non-streaming)
-/// or a stream of ProviderInferenceResponseChunks (streaming).
+/// In both non-streaming and streaming inference, each `ModelProvider` receives data from the provider in a
+/// a (private) provider-specific format that is then transformed into a `ProviderInferenceResponse` (non-streaming)
+/// or a stream of `ProviderInferenceResponseChunks` (streaming).
 
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct ProviderInferenceResponse {
@@ -392,8 +392,8 @@ pub enum Latency {
     Batch,
 }
 
-/// After a ProviderInferenceResponse is returned to the Model,
-/// it is converted into a ModelInferenceResponse that includes additional metadata (such as the model provider name).
+/// After a `ProviderInferenceResponse` is returned to the `Model`,
+/// it is converted into a `ModelInferenceResponse` that includes additional metadata (such as the model provider name).
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct ModelInferenceResponse {
     pub id: Uuid,
@@ -410,7 +410,7 @@ pub struct ModelInferenceResponse {
     pub finish_reason: Option<FinishReason>,
 }
 
-/// Finally, in the Variant we convert the ModelInferenceResponse into a ModelInferenceResponseWithMetadata
+/// Finally, in the Variant we convert the `ModelInferenceResponse` into a `ModelInferenceResponseWithMetadata`
 /// that includes additional metadata (such as the model name).
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct ModelInferenceResponseWithMetadata {
@@ -493,9 +493,9 @@ pub struct JsonInferenceOutput {
     pub parsed: Option<Value>,
 }
 
-/// In the streaming case we convert ProviderInferenceResponseChunks into a InferenceResultChunk, which is then
-/// converted into an InferenceResponseChunk and sent to the client.
-/// We then collect all the InferenceResultChunks into an InferenceResult for validation and storage after the fact.
+/// In the streaming case we convert `ProviderInferenceResponseChunks` into a `InferenceResultChunk`, which is then
+/// converted into an `InferenceResponseChunk` and sent to the client.
+/// We then collect all the `InferenceResultChunks` into an `InferenceResult` for validation and storage after the fact.
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct ProviderInferenceResponseChunk {
@@ -558,8 +558,8 @@ pub enum InferenceResultChunk {
 }
 
 /// Alongside the response, we also store information about what happened during the request.
-/// For this we convert the InferenceResult into a ChatInferenceDatabaseInsert or JsonInferenceDatabaseInsert and ModelInferenceDatabaseInserts,
-/// which are written to ClickHouse tables of the same name asynchronously.
+/// For this we convert the `InferenceResult` into a `ChatInferenceDatabaseInsert` or `JsonInferenceDatabaseInsert` and `ModelInferenceDatabaseInserts`,
+/// which are written to `ClickHouse` tables of the same name asynchronously.
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ChatInferenceDatabaseInsert {
@@ -1183,7 +1183,7 @@ impl From<ContentBlockChatOutput> for ContentBlock {
 }
 
 /// We use best-effort to reconstruct the raw response for JSON functions
-/// They might either return a ToolCallChunk or a TextChunk
+/// They might either return a `ToolCallChunk` or a `TextChunk`
 /// We take the string from either of these (from the last block if there are multiple)
 /// and use that as the raw response.
 impl From<ProviderInferenceResponseChunk> for JsonInferenceResultChunk {

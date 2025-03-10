@@ -87,11 +87,11 @@ struct WithRawRequest<T, E, S, F: FnOnce() -> Result<String, Error>> {
     get_raw_request: F,
 }
 
-/// Attaches our custom interceptor to the request builder, which injects our 'extra_body' parameters into
+/// Attaches our custom interceptor to the request builder, which injects our `extra_body` parameters into
 /// the request body.
 /// Returns the modified request builder, and a function to retrieve the raw request.
 /// This awkward signature is due to the fact that we cannot call `send()` from a generic
-/// function, as one of the needed traits is private: https://github.com/awslabs/aws-sdk-rust/issues/987
+/// function, as one of the needed traits is private: <https://github.com/awslabs/aws-sdk-rust/issues/987>
 fn attach_interceptor<T, E: std::error::Error + Send + Sync, S>(
     mut bedrock_request: CustomizableOperation<T, E, S>,
     request: &ModelInferenceRequest<'_>,
@@ -898,7 +898,7 @@ impl TryFrom<ConverseOutputWithMetadata<'_>> for ProviderInferenceResponse {
 /// Therefore, we construct this unusual JSON object to store the raw output
 ///
 /// This feature request has been pending since 2022:
-/// https://github.com/awslabs/aws-sdk-rust/issues/645
+/// <https://github.com/awslabs/aws-sdk-rust/issues/645>
 fn serialize_aws_bedrock_struct<T: std::fmt::Debug>(output: &T) -> Result<String, Error> {
     serde_json::to_string(&serde_json::json!({"debug": format!("{:?}", output)})).map_err(|e| {
         Error::new(ErrorDetails::InferenceServer {

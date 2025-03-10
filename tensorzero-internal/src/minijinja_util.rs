@@ -16,7 +16,7 @@ impl TemplateConfig<'_> {
         Self { env }
     }
 
-    /// Initializes the TemplateConfig with the given templates, given as a map from template names
+    /// Initializes the `TemplateConfig` with the given templates, given as a map from template names
     /// to template paths.
     pub fn initialize(&mut self, template_paths: HashMap<String, String>) -> Result<(), Error> {
         self.env.set_undefined_behavior(UndefinedBehavior::Strict);

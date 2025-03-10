@@ -8,7 +8,7 @@ use crate::{
     jsonschema_util::{DynamicJSONSchema, JSONSchemaFromPath},
 };
 
-/* A Tool is a function that can be called by an LLM
+/* A `Tool` is a function that can be called by an LLM
  * We represent them in various ways depending on how they are configured by the user.
  * The primary difficulty is that tools require an input signature that we represent as a JSONSchema.
  * JSONSchema compilation takes time so we want to do it at startup if the tool is in the config.
@@ -18,7 +18,7 @@ use crate::{
  * If we are doing an implicit tool call for JSON schema enforcement, we can use the compiled schema from the output signature.
  */
 
-/// A Tool object describes how a tool can be dynamically configured by the user.
+/// A `Tool` object describes how a tool can be dynamically configured by the user.
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Tool {
@@ -37,7 +37,7 @@ pub enum ToolConfig {
     DynamicImplicit(DynamicImplicitToolConfig),
 }
 
-/// Contains the configuration information for a specific tool
+/// Contains the configuration information for a specific `Tool`
 #[derive(Debug, PartialEq, Serialize)]
 pub struct StaticToolConfig {
     pub description: String,
@@ -79,8 +79,8 @@ pub struct ToolCallConfig {
     pub parallel_tool_calls: bool,
 }
 
-/// ToolCallConfigDatabaseInsert is a lightweight version of ToolCallConfig that can be serialized and cloned.
-/// It is used to insert the ToolCallConfig into the database.
+/// `ToolCallConfigDatabaseInsert` is a lightweight version of `ToolCallConfig` that can be serialized and cloned.
+/// It is used to insert the `ToolCallConfig` into the database.
 #[derive(Debug, Deserialize, PartialEq, Serialize)]
 pub struct ToolCallConfigDatabaseInsert {
     pub tools_available: Vec<Tool>,
@@ -207,10 +207,10 @@ pub struct BatchDynamicToolParams {
     pub parallel_tool_calls: Option<Vec<Option<bool>>>,
 }
 
-// Helper type for converting BatchDynamicToolParams into a Vec<DynamicToolParams>
+// Helper type for converting `BatchDynamicToolParams` into a `Vec<DynamicToolParams>`
 pub struct BatchDynamicToolParamsWithSize(pub BatchDynamicToolParams, pub usize);
 
-/// A ToolCall is a request by a model to call a Tool
+/// A `ToolCall` is a request by a model to call a `Tool`
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ToolCall {
@@ -219,8 +219,8 @@ pub struct ToolCall {
     pub id: String,
 }
 
-/// A ToolCallOutput is a request by a model to call a Tool
-/// in the form that we return to the client / ClickHouse
+/// A `ToolCallOutput` is a request by a model to call a `Tool`
+/// in the form that we return to the client / `ClickHouse`
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ToolCallOutput {
     pub arguments: Option<Value>,
@@ -231,9 +231,9 @@ pub struct ToolCallOutput {
 }
 
 impl ToolCallOutput {
-    /// Validates that a ToolCall is compliant with the ToolCallConfig
-    /// First, it finds the ToolConfig for the ToolCall
-    /// Then, it validates the ToolCall arguments against the ToolConfig
+    /// Validates that a `ToolCall` is compliant with the `ToolCallConfig`
+    /// First, it finds the `ToolConfig` for the `ToolCall`
+    /// Then, it validates the `ToolCall` arguments against the `ToolConfig`
     pub async fn new(tool_call: ToolCall, tool_cfg: Option<&ToolCallConfig>) -> Self {
         let tool = tool_cfg.and_then(|t| t.get_tool(&tool_call.name));
         let parsed_name = match tool {
@@ -278,7 +278,7 @@ impl ToolCallConfig {
     }
 }
 
-/// A ToolResult is the outcome of a ToolCall, which we may want to present back to the model
+/// A `ToolResult` is the outcome of a `ToolCall`, which we may want to present back to the model
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct ToolResult {
@@ -314,6 +314,7 @@ pub const IMPLICIT_TOOL_NAME: &str = "respond";
 pub const IMPLICIT_TOOL_DESCRIPTION: &str = "Respond to the user using the output schema provided.";
 
 impl ToolConfig {
+    #[allow(clippy::missing_errors_doc)]
     pub async fn validate_arguments(&self, arguments: &Value) -> Result<(), Error> {
         match self {
             ToolConfig::Static(config) => config.parameters.validate(arguments),
@@ -522,7 +523,7 @@ impl From<ToolCallConfigDatabaseInsert> for ToolCallConfig {
 }
 
 /// For use in initializing JSON functions
-/// Creates a ToolCallConfig with a single implicit tool that takes the schema as arguments
+/// Creates a `ToolCallConfig` with a single implicit tool that takes the schema as arguments
 pub fn create_implicit_tool_call_config(schema: JSONSchemaFromPath) -> ToolCallConfig {
     let implicit_tool = ToolConfig::Implicit(ImplicitToolConfig { parameters: schema });
     ToolCallConfig {

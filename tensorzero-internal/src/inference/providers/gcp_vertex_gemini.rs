@@ -144,7 +144,7 @@ impl GCPVertexCredentials {
 ///
 /// We implement below the JWT request signing as documented [here](https://developers.google.com/identity/protocols/oauth2/service-account).
 ///
-/// GCPCredentials contains the pieces of information required to successfully make a request using a service account JWT
+/// `GCPCredentials` contains the pieces of information required to successfully make a request using a service account JWT
 /// key. The way this works is that there are "claims" about who is making the request and we sign those claims using the key.
 #[derive(Clone)]
 pub struct GCPServiceAccountCredentials {

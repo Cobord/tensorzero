@@ -122,7 +122,7 @@ fn default_api_key_location() -> CredentialLocation {
     CredentialLocation::Env("FIREWORKS_API_KEY".to_string())
 }
 
-/// Key differences between Fireworks and OpenAI inference:
+/// Key differences between `Fireworks` and `OpenAI` inference:
 /// - Fireworks allows you to specify output format in JSON mode
 /// - Fireworks automatically returns usage in streaming inference, we don't have to ask for it
 /// - Fireworks allows you to auto-truncate requests that have too many tokens
@@ -299,9 +299,9 @@ enum FireworksResponseFormat<'a> {
 /// This struct defines the supported parameters for the Fireworks inference API
 /// See the [Fireworks API documentation](https://docs.fireworks.ai/api-reference/post-chatcompletions)
 /// for more details.
-/// We are not handling logprobs, top_logprobs, n, prompt_truncate_len
-/// presence_penalty, frequency_penalty, service_tier, stop, user,
-/// or context_length_exceeded_behavior.
+/// We are not handling `logprobs`, `top_logprobs`, `n`, `prompt_truncate_len`
+/// `presence_penalty`, `frequency_penalty`, `service_tier`, `stop`, `user`,
+/// or `context_length_exceeded_behavior`.
 /// NOTE: Fireworks does not support seed.
 #[derive(Debug, Serialize)]
 struct FireworksRequest<'a> {

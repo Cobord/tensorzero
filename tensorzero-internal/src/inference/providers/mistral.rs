@@ -440,10 +440,10 @@ fn prepare_mistral_tools<'a>(
 /// This struct defines the supported parameters for the Mistral inference API
 /// See the [Mistral API documentation](https://docs.mistral.ai/api/#tag/chat)
 /// for more details.
-/// We are not handling logprobs, top_logprobs, n, prompt_truncate_len
-/// presence_penalty, frequency_penalty, service_tier, stop, user,
-/// or context_length_exceeded_behavior.
-/// NOTE: Mistral does not support seed.
+/// We are not handling `logprobs`, `top_logprobs`, `n`, `prompt_truncate_len`
+/// `presence_penalty`, `frequency_penalty`, `service_tier`, `stop`, `user`,
+/// or `context_length_exceeded_behavior`.
+/// NOTE: Mistral does not support `seed`.
 #[derive(Debug, Serialize)]
 struct MistralRequest<'a> {
     messages: Vec<OpenAIRequestMessage<'a>>,
@@ -571,7 +571,7 @@ impl From<MistralFinishReason> for FinishReason {
     }
 }
 
-// Leaving out logprobs and finish_reason for now
+// Leaving out `logprobs` and `finish_reason` for now
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 struct MistralResponseChoice {
     index: u8,
@@ -579,7 +579,7 @@ struct MistralResponseChoice {
     finish_reason: MistralFinishReason,
 }
 
-// Leaving out id, created, model, service_tier, system_fingerprint, object for now
+// Leaving out `id`, `created`, `model`, `service_tier`, `system_fingerprint`, `object` for now
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 struct MistralResponse {
     choices: Vec<MistralResponseChoice>,
@@ -686,7 +686,7 @@ struct MistralDelta {
     tool_calls: Option<Vec<MistralToolCallChunk>>,
 }
 
-// This doesn't include logprobs, finish_reason, and index
+// This doesn't include `logprobs`, `finish_reason`, and `index`
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 struct MistralChatChunkChoice {
     delta: MistralDelta,
@@ -701,7 +701,7 @@ struct MistralChatChunk {
     usage: Option<MistralUsage>,
 }
 
-/// Maps a Mistral chunk to a TensorZero chunk for streaming inferences
+/// Maps a `Mistral` chunk to a `TensorZero` chunk for streaming inferences
 fn mistral_to_tensorzero_chunk(
     mut chunk: MistralChatChunk,
     latency: Duration,

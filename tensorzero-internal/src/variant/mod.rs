@@ -45,7 +45,7 @@ pub enum VariantConfig {
 }
 
 /// This type is used to determine how to enforce JSON mode for a given variant.
-/// Variants represent JSON mode in a slightly more abstract sense than ModelInferenceRequests, as
+/// Variants represent JSON mode in a slightly more abstract sense than `ModelInferenceRequests`, as
 /// we support coercing tool calls into JSON mode.
 /// This is represented as a tool config in the
 #[derive(Clone, Copy, Debug, Deserialize, PartialEq, Serialize)]

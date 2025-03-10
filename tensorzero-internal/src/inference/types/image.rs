@@ -118,7 +118,7 @@ impl Image {
 }
 
 /// Strips out image data from the raw request, replacing it with a placeholder.
-/// This is a best-effort attempt to avoid filling up ClickHouse with image data.
+/// This is a best-effort attempt to avoid filling up `ClickHouse` with image data.
 pub fn sanitize_raw_request(input_messages: &[RequestMessage], mut raw_request: String) -> String {
     let mut i = 0;
     for message in input_messages {

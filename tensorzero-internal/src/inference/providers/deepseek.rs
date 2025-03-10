@@ -473,7 +473,7 @@ struct DeepSeekChatChunk {
     usage: Option<OpenAIUsage>,
 }
 
-/// Maps a DeepSeek chunk to a TensorZero chunk for streaming inferences
+/// Maps a `DeepSeek` chunk to a `TensorZero` chunk for streaming inferences
 fn deepseek_to_tensorzero_chunk(
     mut chunk: DeepSeekChatChunk,
     latency: Duration,
@@ -708,7 +708,7 @@ impl<'a> TryFrom<DeepSeekResponseWithMetadata<'a>> for ProviderInferenceResponse
 }
 
 /// If a message is a system, user, or assistant message and the next message is the same type, coalesce them into a single message
-/// Required for DeepSeek reasoner type models
+/// Required for `DeepSeek` reasoner type models
 fn coalesce_consecutive_messages(messages: Vec<OpenAIRequestMessage>) -> Vec<OpenAIRequestMessage> {
     let mut result = messages;
     let mut i = 0;

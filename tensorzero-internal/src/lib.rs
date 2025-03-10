@@ -4,6 +4,7 @@
     clippy::similar_names,
     clippy::inconsistent_struct_constructor,
     clippy::unnecessary_wraps,
+    clippy::missing_errors_doc,
     clippy::unused_self,
     clippy::redundant_closure_for_method_calls,
     clippy::single_match_else,

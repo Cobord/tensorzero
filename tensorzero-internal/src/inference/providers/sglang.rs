@@ -299,12 +299,12 @@ impl SGLangResponseFormat {
     }
 }
 
-/// This struct defines the supported parameters for the OpenAI API
+/// This struct defines the supported parameters for the `OpenAI` API
 /// See the [OpenAI API documentation](https://platform.openai.com/docs/api-reference/chat/create)
 /// for more details.
-/// We are not handling logprobs, top_logprobs, n,
-/// presence_penalty, seed, service_tier, stop, user,
-/// or the deprecated function_call and functions arguments.
+/// We are not handling `logprobs`, `top_logprobs`, `n`,
+/// `presence_penalty`, `seed`, `service_tier`, `stop`, `user`,
+/// or the deprecated `function_call` and `functions` arguments.
 #[derive(Debug, Serialize)]
 struct SGLangRequest<'a> {
     messages: Vec<OpenAIRequestMessage<'a>>,

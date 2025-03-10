@@ -297,9 +297,9 @@ enum TogetherResponseFormat<'a> {
 /// This struct defines the supported parameters for the Together inference API
 /// See the [Together API documentation](https://docs.together.ai/docs/chat-overview)
 /// for more details.
-/// We are not handling logprobs, top_logprobs, n, prompt_truncate_len
-/// presence_penalty, frequency_penalty, seed, service_tier, stop, user,
-/// or context_length_exceeded_behavior
+/// We are not handling `logprobs`, `top_logprobs`, `n`, `prompt_truncate_len`
+/// `presence_penalty`, `frequency_penalty`, `seed`, `service_tier`, `stop`, `user`,
+/// or `context_length_exceeded_behavior`
 #[derive(Debug, Serialize)]
 struct TogetherRequest<'a> {
     messages: Vec<OpenAIRequestMessage<'a>>,
@@ -439,7 +439,7 @@ const END_THINK_TAG_LEN: usize = END_THINK_TAG.len();
 /// The function also validates that tags are properly matched - an error is returned
 /// if there are mismatched opening/closing tags.
 ///
-/// Returns a tuple of (cleaned_text, optional_reasoning).
+/// Returns a tuple of `(cleaned_text, optional_reasoning)`.
 /// The reasoning, if present, will have leading/trailing whitespace trimmed.
 fn process_think_blocks(text: &str, parse: bool) -> Result<(String, Option<String>), Error> {
     if !parse {
@@ -702,9 +702,9 @@ fn stream_together(
     })
 }
 
-/// Maps a Together chunk to a TensorZero chunk for streaming inferences
+/// Maps a `Together` chunk to a `TensorZero` chunk for streaming inferences
 ///
-/// This function handles the conversion of Together chat chunks into TensorZero chunks.
+/// This function handles the conversion of Together chat chunks into `TensorZero` chunks.
 /// It processes the content and tool calls from the Together response, updating the tool call IDs and names.
 /// If parsing think blocks is enabled, it also processes the thinking state and extracts reasoning.
 fn together_to_tensorzero_chunk(

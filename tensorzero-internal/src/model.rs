@@ -142,7 +142,7 @@ impl StreamResponse {
 
 /// Creates a fully-qualified name from a model and provider name, suitable for using
 /// in `ContentBlock::Unknown.model_provider_name`
-/// Note that 'model_name' is a name from `[models]`, which is not necessarily
+/// Note that `model_name` is a name from `[models]`, which is not necessarily
 /// the same as the underlying name passed to a specific provider api
 pub fn fully_qualified_name(model_name: &str, provider_name: &str) -> String {
     format!("tensorzero::model_name::{model_name}::provider_name::{provider_name}")
@@ -505,10 +505,10 @@ pub enum ProviderConfig {
     Dummy(DummyProvider),
 }
 
-/// Helper struct for deserializing the ProviderConfig.
+/// Helper struct for deserializing the `ProviderConfig`.
 /// This is necessary because we want to load environment variables as we deserialize
 /// and we need to be able to deserialize the correct one based on the "type" field.
-/// Use the ProviderConfig struct for all post-initialization logic.
+/// Use the `ProviderConfig` struct for all post-initialization logic.
 #[derive(Deserialize, VariantNames)]
 #[strum(serialize_all = "lowercase")]
 #[serde(tag = "type")]

@@ -6,8 +6,8 @@ use crate::{
     inference::types::current_timestamp,
 };
 
-/// Timestamp when Scaling Laws for Neural Language Models was published.
-/// No way anyone could use TensorZero prior to this.
+/// Timestamp when "Scaling Laws for Neural Language Models" was published.
+/// No way anyone could use `TensorZero` prior to this.
 const EARLIEST_TIMESTAMP: u64 = 1_579_751_960;
 
 pub fn validate_episode_id(episode_id: Uuid) -> Result<(), Error> {

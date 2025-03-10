@@ -106,7 +106,7 @@ impl VLLMCredentials {
     }
 }
 
-/// Key differences between vLLM and OpenAI inference:
+/// Key differences between `vLLM` and `OpenAI` inference:
 /// - vLLM supports guided decoding
 /// - vLLM only supports a specific tool and nothing else (and the implementation varies among LLMs)
 ///   **Today, we can't support tools** so we are leaving it as an open issue (#169).
