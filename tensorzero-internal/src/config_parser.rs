@@ -224,15 +224,13 @@ impl std::fmt::Display for MetricConfigLevel {
 
 impl<'c> Config<'c> {
     pub async fn load_and_verify_from_path(config_path: &Path) -> Result<Config<'c>, Error> {
-        let config_table = match UninitializedConfig::read_toml_config(config_path)? {
-            Some(table) => table,
-            None => {
-                return Err(ErrorDetails::Config {
-                    message: format!("Config file not found: {config_path:?}"),
-                }
-                .into())
+        let Some(config_table) = UninitializedConfig::read_toml_config(config_path)? else {
+            return Err(ErrorDetails::Config {
+                message: format!("Config file not found: {config_path:?}"),
             }
+            .into())
         };
+        
         let base_path = match PathBuf::from(&config_path).parent() {
             Some(base_path) => base_path.to_path_buf(),
             None => {

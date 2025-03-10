@@ -815,20 +815,18 @@ pub async fn write_completed_batch_inference<'a>(
             model_provider_name: _,
             tags: _,
         } = batch_model_inference;
-        let ProviderBatchInferenceOutput {
+        let Some(ProviderBatchInferenceOutput {
             id: _,
             output,
             raw_response,
             usage,
             finish_reason,
-        } = match response.elements.remove(&inference_id) {
-            Some(inference_response) => inference_response,
-            None => {
-                Error::new(ErrorDetails::MissingBatchInferenceResponse {
-                    inference_id: Some(inference_id),
-                });
-                continue;
-            }
+        }) = response.elements.remove(&inference_id) else {
+            // this error is discarded?
+            let _ = Error::new(ErrorDetails::MissingBatchInferenceResponse {
+                inference_id: Some(inference_id),
+            });
+            continue;
         };
         let model_inference_response = ModelInferenceResponseWithMetadata {
             id: Uuid::now_v7(),
@@ -846,13 +844,9 @@ pub async fn write_completed_batch_inference<'a>(
             finish_reason,
         };
         let tool_config: Option<ToolCallConfig> = tool_params.map(|t| t.into());
-        let output_schema = match output_schema
+        let Ok(output_schema) = output_schema
             .map(|s| DynamicJSONSchema::parse_from_str(&s))
-            .transpose()
-        {
-            Ok(s) => s,
-            Err(_) => continue,
-        };
+            .transpose() else { continue };
         let inference_config = InferenceConfig {
             tool_config: tool_config.as_ref(),
             dynamic_output_schema: output_schema.as_ref(),

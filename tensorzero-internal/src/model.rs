@@ -1217,6 +1217,7 @@ impl TryFrom<(CredentialLocation, &str)> for Credential {
             },
             CredentialLocation::PathFromEnv(env_key) => {
                 // First get the path from environment variable
+                #[allow(clippy::manual_let_else)]
                 let path = match env::var(&env_key) {
                     Ok(path) => path,
                     Err(_) => {

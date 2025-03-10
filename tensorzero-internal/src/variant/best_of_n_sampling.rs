@@ -421,21 +421,19 @@ async fn inner_select_best_candidate<'a, 'request>(
         model_inference_response,
         evaluator.inner.model.clone(),
     );
-    let raw = match model_inference_result
+    let Some(raw) = model_inference_result
         .output
         .iter()
         .find_map(|block| match block {
             ContentBlockOutput::Text(text) => Some(&text.text),
             ContentBlockOutput::ToolCall(tool_call) => Some(&tool_call.arguments),
             _ => None,
-        }) {
-        Some(text) => text,
-        None => {
-            Error::new(ErrorDetails::Inference {
-                message: "The evaluator did not return a text response".to_string(),
-            });
-            return Ok((None, Some(model_inference_result)));
-        }
+        })
+    else {
+        Error::new(ErrorDetails::Inference {
+            message: "The evaluator did not return a text response".to_string(),
+        });
+        return Ok((None, Some(model_inference_result)));
     };
     let parsed_output = match serde_json::from_str::<Value>(raw) {
         Ok(value) => value,

@@ -15,7 +15,6 @@
     clippy::too_many_lines,
     clippy::needless_pass_by_value,
     clippy::wildcard_imports,
-    clippy::manual_let_else,
     clippy::map_unwrap_or,
     clippy::implicit_clone,
     clippy::if_not_else,

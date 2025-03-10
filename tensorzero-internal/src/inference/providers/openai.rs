@@ -717,6 +717,7 @@ impl OpenAIProvider {
                     continue;
                 }
             };
+            #[allow(clippy::manual_let_else)]
             let output = match ProviderBatchInferenceOutput::try_from(row) {
                 Ok(output) => output,
                 Err(_) => {
